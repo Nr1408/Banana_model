@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+pillow
+numpy
+# CPU-only PyTorch to keep the app small and fast on Railway
+torch==2.2.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
+torchvision==0.17.1+cpu --extra-index-url https://download.pytorch.org/whl/cpu
