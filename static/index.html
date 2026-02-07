@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍌 Leaflens Doctor</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        h1 { color: #2c3e50; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        input[type="file"] { margin: 20px 0; }
+        button { background-color: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #219150; }
+        #result { margin-top: 20px; font-weight: bold; font-size: 18px; }
+        #confidence { color: #7f8c8d; font-size: 14px; }
+        img { max-width: 100%; border-radius: 5px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍌 Leaflens Doctor</h1>
+        <p>Upload a banana leaf image to detect diseases.</p>
+        
+        <input type="file" id="imageInput" accept="image/*" onchange="previewImage()">
+        <br>
+        <img id="preview" src="#" alt="Image Preview">
+        <br><br>
+        <button onclick="analyze()">Analyze Leaf</button>
+        
+        <div id="result"></div>
+        <div id="confidence"></div>
+    </div>
+
+    <script>
+        function previewImage() {
+            var file = document.getElementById("imageInput").files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.getElementById("preview");
+                img.src = e.target.result;
+                img.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        }
+
+        async function analyze() {
+            var fileInput = document.getElementById("imageInput");
+            var resultDiv = document.getElementById("result");
+            var confDiv = document.getElementById("confidence");
+
+            if (fileInput.files.length === 0) {
+                alert("Please select an image first!");
+                return;
+            }
+
+            resultDiv.innerText = "Analyzing...";
+            confDiv.innerText = "";
+
+            var formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            try {
+                // Send to your API
+                var response = await fetch("/predict", {
+                    method: "POST",
+                    body: formData
+                });
+                var data = await response.json();
+
+                resultDiv.innerText = "Diagnosis: " + data.prediction;
+                confDiv.innerText = "Confidence: " + (data.confidence * 100).toFixed(2) + "%";
+            } catch (error) {
+                resultDiv.innerText = "Error analyzing image.";
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
