@@ -6,4 +6,4 @@ pillow
 numpy<2
 torch==2.2.1+cpu
 torchvision==0.17.1+cpu
-# Force rebuild version 3
+# v3 force fix
