@@ -62,5 +62,9 @@ async def predict(file: UploadFile = File(...)):
         "confidence": confidence
     }
 
+# --- REPLACE THE BOTTOM OF main.py WITH THIS ---
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+    import os
+    # Get the PORT from Railway, or default to 8080 if running locally
+    port = int(os.environ.get("PORT", 8080))
+    uvicorn.run(app, host="0.0.0.0", port=port)

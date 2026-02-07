@@ -12,4 +12,5 @@ EXPOSE 8080
 
 # --- THE FIX ---
 # We wrap the command in "sh -c" to force the $PORT variable to work
-CMD sh -c "uvicorn main.py:app --host 0.0.0.0 --port $PORT"
+# --- REPLACE THE CMD LINE WITH THIS ---
+CMD ["python", "main.py"]
