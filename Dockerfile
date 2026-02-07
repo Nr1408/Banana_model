@@ -7,6 +7,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+# EXPOSE isn't strictly needed for Railway but good for documentation
 EXPOSE 8080
 
-CMD ["uvicorn", "main.py:app", "--host", "0.0.0.0", "--port", "8080"]
+# --- THE FIX IS HERE ---
+# No brackets, no quotes. This lets $PORT work correctly.
+CMD uvicorn main.py:app --host 0.0.0.0 --port $PORT
