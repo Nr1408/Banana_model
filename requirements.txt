@@ -3,6 +3,6 @@ fastapi
 uvicorn
 python-multipart
 pillow
-numpy<2   <-- CHANGE THIS (Forces version 1.x)
+numpy<2   <-- This forces version 1.x
 torch==2.2.1+cpu
 torchvision==0.17.1+cpu
