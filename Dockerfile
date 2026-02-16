@@ -7,10 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# EXPOSE isn't strictly needed for Railway but good for documentation
 EXPOSE 8080
 
-# --- THE FIX ---
-# We wrap the command in "sh -c" to force the $PORT variable to work
-# --- REPLACE THE CMD LINE WITH THIS ---
-CMD ["python", "main.py"]
+# Cloud Run expects the app to listen on port 8080
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
